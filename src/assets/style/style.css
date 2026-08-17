@@ -1,0 +1,480 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  background-color: #0c0e1b;
+}
+
+.page {
+  height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at 50% 50%, #171b38 0%, #0c0e1b 85%);
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Toggle Navigation Selector */
+.toggle-wrapper {
+  margin-bottom: 45px;
+  z-index: 20;
+}
+
+.toggle {
+  position: relative;
+  display: flex;
+  background: #13194b;
+  border-radius: 8px;
+  padding: 4px;
+  width: 270px;
+  border: 1px solid #232b6e;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.toggle-pill {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 18px;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #7a87c5;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.toggle-pill.active {
+  background: #fdf2b5;
+  color: #13194b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 3D Scene Setup */
+.scene {
+  perspective: 1200px;
+  width: 320px;
+  height: 500px;
+  z-index: 10;
+}
+
+.card-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card Faces */
+.card {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), 0 10px 20px rgba(0, 0, 0, 0.2);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  overflow: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.card-front {
+  transform: rotateY(0deg) translateZ(1px);
+}
+
+.card-back {
+  transform: rotateY(180deg) translateZ(1px);
+}
+
+/* Prevent reverse side elements from leaking through perspective */
+.card-wrapper:not(.flipped) .card-back {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.card-wrapper.flipped .card-front {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------- */
+/* Card Header & Base Textures (Sea & Grass)            */
+/* ---------------------------------------------------- */
+
+.card-visual-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  border-radius: 20px 20px 0 0;
+  overflow: visible;
+  z-index: 1;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.header-texture-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 195px;
+  /* Round only top corners to match the card, letting the organic bottom edge display naturally */
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateZ(5px);
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.header-texture-img {
+  position: absolute;
+  object-fit: cover;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.15));
+}
+
+.sea-texture {
+  width: 155%;
+  height: 125%;
+  top: -20%;
+  left: -27%;
+  opacity: 1;
+}
+
+.grass-texture {
+  width: 145%;
+  height: 120%;
+  top: -15%;
+  left: -22%;
+  opacity: 1;
+}
+
+/* Card Content & Details */
+.card-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px;
+  transform-style: preserve-3d;
+}
+
+/* Centered Header & Radial Title Glow */
+.card-header-centered {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 185px;
+  margin-bottom: 18px;
+  transform: translateZ(50px);
+  transform-style: preserve-3d;
+}
+
+.card-title-centered {
+  font-family: "Poppins", sans-serif;
+  color: #101538;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  z-index: 2;
+  letter-spacing: -0.5px;
+}
+
+.title-glow-blue {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(125, 150, 239, 0.4) 0%, rgba(125, 150, 239, 0) 70%);
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.title-glow-green {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(120, 220, 162, 0.45) 0%, rgba(120, 220, 162, 0) 70%);
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Centered Pricing Block */
+.card-price-block-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  transform: translateZ(45px);
+}
+
+.price-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  color: #101538;
+}
+
+.price-amount {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.price-separator {
+  font-size: 26px;
+  font-weight: 300;
+  color: #b0b5cf;
+}
+
+.price-unit {
+  font-size: 20px;
+  font-weight: 600;
+  color: #555c82;
+}
+
+.price-subtitle {
+  font-size: 13px;
+  color: #858cae;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Centered Location Block */
+.card-location-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 26px;
+  transform: translateZ(40px);
+}
+
+.location-pin-icon {
+  color: #13194b;
+  opacity: 0.85;
+}
+
+.location-text {
+  color: #555c82;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Centered navy choose button */
+.choose-btn-centered {
+  background: #13194b;
+  color: #ffffff;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(19, 25, 75, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(45px);
+  width: fit-content;
+  align-self: center;
+}
+
+.choose-btn-centered:hover {
+  background: #fdf2b5;
+  color: #13194b;
+  transform: translateY(-2px) translateZ(60px);
+  box-shadow: 0 8px 20px rgba(19, 25, 75, 0.3);
+}
+
+.choose-btn-centered:active {
+  transform: translateY(0) translateZ(45px);
+}
+
+/* ---------------------------------------------------- */
+/* 3D Floating Assets (Contained inside card at rest)   */
+/* ---------------------------------------------------- */
+
+/* Yellow Kayak: Resting neatly on water inside card */
+.kayak-wrapper-3d {
+  position: absolute;
+  top: 25px;
+  left: 20px;
+  width: 170px;
+  height: 130px;
+  z-index: 10;
+  transform: translateZ(20px) rotate(0deg) scale(0.9);
+  transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+}
+
+.kayak-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.3));
+}
+
+/* Water Splash: Tucked inside header, reveals on hover */
+.splash-container-3d {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 130px;
+  height: 130px;
+  z-index: 6;
+  transform: translateZ(10px) scale(0.6);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.splash-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+}
+
+/* Realistic Camping Tent: Resting neatly on grass inside card */
+.tent-container-3d {
+  position: absolute;
+  top: 25px;
+  left: 15px;
+  width: 160px;
+  height: 140px;
+  z-index: 10;
+  transform: translateZ(20px) rotate(0deg) scale(0.9);
+  transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+}
+
+.tent-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.3));
+}
+
+/* Pine Foliage: Refined and smaller in size */
+.foliage-container-3d {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 85px;
+  height: 90px;
+  z-index: 6;
+  transform: translateZ(10px) rotate(5deg) scale(0.6);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.foliage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.3));
+}
+
+/* Bottom Right Corner Rocks (Resting inside card) */
+.rock-container {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 60px;
+  height: 60px;
+  transform: translateZ(15px) scale(0.85);
+  transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+  z-index: 15;
+}
+
+.rock-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
+
+/* ---------------------------------------------------- */
+/* Interactive Hover: Elements POP OUT beyond card edges*/
+/* ---------------------------------------------------- */
+
+/* Front face (Kayaking) hover */
+.card-wrapper:not(.flipped):hover .kayak-wrapper-3d {
+  transform: translateZ(120px) rotate(-8deg) scale(1.4) translate(-8px, -15px);
+}
+
+.card-wrapper:not(.flipped):hover .splash-container-3d {
+  opacity: 1;
+  transform: translateZ(90px) scale(1.4) translate(12px, -22px);
+}
+
+.card-wrapper:not(.flipped):hover .rock-kayak {
+  transform: translateZ(95px) scale(1.35) translate(22px, 20px);
+}
+
+/* Back face (Camping) hover */
+.card-wrapper.flipped:hover .tent-container-3d {
+  transform: translateZ(120px) rotate(-8deg) scale(1.35) translate(-35px, -30px);
+}
+
+.card-wrapper.flipped:hover .foliage-container-3d {
+  opacity: 1;
+  transform: translateZ(90px) rotate(20deg) scale(1.25) translate(28px, -15px);
+}
+
+.card-wrapper.flipped:hover .rock-camping {
+  transform: translateZ(95px) scale(1.35) translate(22px, 20px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 380px) {
+  .scene {
+    width: 90vw;
+    height: 490px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-wrapper,
+  .choose-btn-centered,
+  .kayak-wrapper-3d,
+  .tent-container-3d,
+  .foliage-container-3d,
+  .rock-container,
+  .splash-container-3d,
+  .header-texture-container {
+    transition-duration: 0.01ms !important;
+  }
+}
+
